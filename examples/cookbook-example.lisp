@@ -13,8 +13,10 @@
   "/etc/nginx/nginx.config")
 
 (if (exists? "some-file")
-  (install-package "nginx")
-  (install-package "nginx-improved"))
+  (install-package (list "nginx" "nginx-improved")))
+
+(if (and (exists? "some-file") (exists? "other-file"))
+  (package-install "some-good-package"))
 
 (debconf-set-selections
   "percona-server-server-5 percona-server-server/"
@@ -24,7 +26,12 @@
 ; some examples of observance of conditions and
 ; multiple statements: 
 
-(if (exists? "some-file")
-  (cond (add-key-from-keyserver "a" "b")
+(if (and (exists? "some-file") 
+         (= (exec "lsb_release -la") "Ubuntu"))
+  (cond (set-env 
+          (list ("mysql_password" "0sdjsd9")
+                ("mysql_user" "root")
+                ("mysql_port" "32002")))
+        (add-key-from-keyserver "a" "b")
         (install-package "package-name"))
   (do-something-else))

@@ -36,6 +36,7 @@ func (data *Data) clearContents () {
     var clearedData string
 
     // removing empty lines and comments
+    // TODO: remove from ";" to EOL in non-empty lines
     for lineNumber := range lineSplittedData {
         if len(lineSplittedData[lineNumber]) > 0 && lineSplittedData[lineNumber][0] != ';' {
             clearedData = clearedData + lineSplittedData[lineNumber] + "\n"
@@ -83,6 +84,7 @@ func (data *Data) searchStatements () []string {
 }
 
 
+// TODO: remove beginning and finishing whitespaes if any
 func (s *Statement) unpack () {
     s.text = s.text[1:(len(s.text) - 1)]
 }
@@ -90,6 +92,7 @@ func (s *Statement) unpack () {
 
 func (s *Statement) parse () {
     fmt.Println(s.text)
+    fmt.Println()
 }
 
 
