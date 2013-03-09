@@ -32,8 +32,6 @@ func (data *Data) clearContents () {
     // removing empty lines and comments
     for lineNumber := range lineSplittedData {
         if len(lineSplittedData[lineNumber]) > 0 && lineSplittedData[lineNumber][0] != ';' {
-
-            // removing indentation
             clearedData = clearedData + lineSplittedData[lineNumber] + "\n"
         }
     }
