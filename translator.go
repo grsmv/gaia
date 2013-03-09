@@ -17,6 +17,12 @@ type Statements struct {
     collection []string
 }
 
+type Statement struct {
+    text string
+    macro string
+    arguments []string
+}
+
 
 func (data *Data) parseFile (file string) {
     fileContents, _ := ioutil.ReadFile(fileToParse)
@@ -35,6 +41,10 @@ func (data *Data) clearContents () {
             clearedData = clearedData + lineSplittedData[lineNumber] + "\n"
         }
     }
+
+    // '() -> (list )
+    r := regexp.MustCompile("'\\(")
+    clearedData = r.ReplaceAllString(clearedData, "(list ")
 
     data.contents = clearedData
 }
@@ -73,20 +83,35 @@ func (data *Data) searchStatements () []string {
 }
 
 
-func (s *Statements) processEach () {
-    for index := range s.collection {
-      fmt.Println((index + 1), "|", len(strings.Split(s.collection[index], " ")), "|", s.collection[index])
-    }
+func (s *Statement) unpack () {
+    s.text = s.text[1:(len(s.text) - 1)]
+}
+
+
+func (s *Statement) parse () {
+    fmt.Println(s.text)
 }
 
 
 func main () {
+
+    // reading and preprocessing file contents
     d := Data { contents: "" }
     d.parseFile(fileToParse)
     d.clearContents()
     
+    // searching statements in the top-level
     s := Statements { collection: d.searchStatements() }
-    s.processEach()
+
+    // processing each top-level statements
+    for index := range s.collection {
+        statement := Statement { text: s.collection[index] }
+        statement.unpack ()
+
+        // searching for macro name and argument list
+        statement.parse ()
+    }
+
 }
 
 // vim: noai:ts=4:sw=4
