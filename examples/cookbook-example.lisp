@@ -2,6 +2,8 @@
 
 (package nginx)
 
+(defvar package-name "nginx")
+
 (add-key-from-url
   "http://nginx.org/keys/nginx_signing.key")
 
@@ -16,8 +18,8 @@
 
 (debconf-set-selections
   "percona-server-server-5 percona-server-server/"
-  '(("root_password       password some-password")
-    ("root_password_again password some-password")))
+  (list ("root_password       password some-password")
+        ("root_password_again password some-password")))
 
 ; some examples of observance of conditions and
 ; multiple statements: 
