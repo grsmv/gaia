@@ -1,3 +1,5 @@
+; Example of Pallada Cookbook
+
 (package nginx)
 
 (add-key-from-url
@@ -7,3 +9,7 @@
 
 (install-config 
   "/etc/nginx/nginx.config")
+
+(if (exists? "some-file")
+  (install-package "nginx")
+  (install-package "nginx-improved"))
