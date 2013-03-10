@@ -4,20 +4,20 @@
 
 (defvar package-name "nginx")
 
-(add-key-from-url
-  "http://nginx.org/keys/nginx_signing.key")
-
-(package-install "nginx")
-
-(install-config 
-  "/etc/nginx/nginx.config")
-
+; (add-key-from-url
+;   "http://nginx.org/keys/nginx_signing.key")
+; 
+; (package-install "nginx")
+; 
+; (install-config 
+;   "/etc/nginx/nginx.config")
+; 
 (if (exists? "some-file")
   (install-package (list "nginx" "nginx-improved")))
-
+; 
 (if (and (exists? "some-file") (exists? "other-file"))
   (package-install "some-good-package"))
-
+; 
 (debconf-set-selections
   "percona-server-server-5 percona-server-server/"
   (list ("root_password       password some-password")

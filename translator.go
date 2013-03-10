@@ -90,9 +90,61 @@ func (s *Statement) unpack () {
 }
 
 
-func (s *Statement) parse () {
+func (s *Statement) parse () []string {
     fmt.Println(s.text)
+
+    splittedBytes := strings.Split(s.text, "")
+    statements := make([]string, 0)
+    openBrackets := 0
+    statement := ""
+
+    // if symbol == " " and openBrackets == 0  ~>  stop recording statement, create another one
+    // if symbol == " " and openBrackets  > 0  ~>  continue recording statement
+    // if symbol == "(" and openBrackets == 0  ~>  create new statement, openBrackets += 1
+    // if symbol == "(" and openBrackets  > 0  ~>  continue recording statement, openBrackets += 1
+    // if symbol == ")" and openBrackets  > 0  ~>  continue recording statement, openBrackets -= 1
+    // if symbol == ")" and openBrackets == 0  ~>  stop recording statement, create another one
+
+    for index := range splittedBytes {
+        switch splittedBytes[index] {
+        case string(' '):
+            if openBrackets == 0 {
+                if len(statement) > 0 {
+                    statements = append(statements, statement)
+                    statement = ""
+                }
+            } else {
+                statement = statement + splittedBytes[index]
+            }
+
+        case string('('):
+            openBrackets += 1
+            statement = statement + splittedBytes[index]
+
+        case string(')'):
+            openBrackets -= 1
+            statement = statement + splittedBytes[index]
+
+            if openBrackets == 0 {
+                statements = append(statements, statement)
+                statement = ""
+            }
+        default:
+            statement = statement + splittedBytes[index]
+
+            if (index + 1) == len(splittedBytes) {
+                statements = append(statements, statement)
+            }
+        }
+    }
+
+    for index := range statements {
+      fmt.Println(index, "|", statements[index])
+    }
+    
     fmt.Println()
+    
+    return statements
 }
 
 
