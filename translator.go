@@ -3,8 +3,9 @@ package main
 import (
   "fmt" 
   "io/ioutil"
-  "strings"
+  "os"
   "regexp"
+  "strings"
 )
 
 var fileToParse = "examples/possible-comands-and-syntax.lisp"
@@ -38,8 +39,6 @@ func (data *Data) parseFile (file string) {
 }
 
 
-// TODO: add brackets counter to see that number of opening and 
-//       closing brackets is equal
 func (data *Data) clearContents () {
     lineSplittedData := strings.Split(data.contents, string('\n'))
 
@@ -60,6 +59,33 @@ func (data *Data) clearContents () {
 
     data.contents = clearedData
 }
+
+
+func (data *Data) inspectBrackets () {
+    var contentsCopy string
+    contentsCopy = data.contents 
+
+    // clearing from strings
+    noQuotes := regexp.MustCompile("\\\"[^\\\"]{0,}\\\"")
+    contentsCopy = noQuotes.ReplaceAllString(contentsCopy, "")
+
+    // counting brackets
+    splittedBytes := strings.Split(contentsCopy, "")
+    l := 0
+    r := 0
+    for index := range splittedBytes {
+        switch splittedBytes[index] {
+        case string('('): l += 1
+        case string(')'): r += 1
+        }
+    }
+
+    if l != r {
+        fmt.Println(red, "Error: Brackets mismatch", reset)
+        os.Exit(2)
+    }
+}
+
 
 
 func (data *Data) searchStatements () []string {
@@ -125,11 +151,16 @@ func (s *Statement) parse () {
             }
 
         case string('('):
-            openBrackets += 1
             statement = statement + splittedBytes[index]
+            if openedQuote == false {
+                openBrackets += 1
+            }
 
         case string(')'):
-            openBrackets -= 1
+            if openedQuote == false {
+                openBrackets -= 1
+            }
+
             statement = statement + splittedBytes[index]
 
             if openBrackets == 0 {
@@ -142,8 +173,8 @@ func (s *Statement) parse () {
             openedQuote = !openedQuote
 
             if openedQuote == false && openBrackets == 0 {
-              statements = append(statements, statement)
-              statement = ""
+                statements = append(statements, statement)
+                statement = ""
             }
 
         default:
@@ -178,8 +209,9 @@ func (s *Statement) print () {
 
     fmt.Println(green, leftMargin, "   ", s.head, reset)
 
+    // expanding statement or printing it's arguments
     for index := range s.tail  {
-        if (detectList(s.tail[index]) == true) {
+        if (detectList(s.tail[index])) {
             nested_statement := Statement { text: s.tail[index], level: (s.level + 1)}
             nested_statement.parse ()
             nested_statement.print ()
@@ -196,6 +228,7 @@ func main () {
     d := Data { contents: "" }
     d.parseFile(fileToParse)
     d.clearContents()
+    d.inspectBrackets ()
     
     // searching statements in the top-level
     s := Statements { collection: d.searchStatements() }
@@ -205,6 +238,8 @@ func main () {
         statement := Statement { text: s.collection[index], level: 0 }
 
         statement.parse ()
+
+        // recursive print of statement
         statement.print ()
 
         fmt.Println()

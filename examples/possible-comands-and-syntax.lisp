@@ -9,7 +9,7 @@
 (add-key-from-keyserver
   "hkp://keys.gnupg.net" "1C4CBDCDCD2EFD2A")
 
-(add-keysp-from-file
+(add-keys-from-file
   "access.key")
 
 (debconf-set-selections
@@ -36,3 +36,17 @@
 
 (eval "chown -R deploy:deploy ~deploy/.rbenv")
 
+(setup
+  (if (and (exists? "some-file") 
+           (= (exec "lsb_release -la") "Ubuntu"))
+    (cond (set-env 
+            (list "mysql_password" "0sdjsd9"
+                  "mysql_user" "root"
+                  "mysql_port" "32002"))
+          (add-key-from-keyserver "a" "b")
+          (install-package "package-name")
+          (if (= (exec "uname -a") "Darwin") 
+            do-useful-command 
+            (cond (do-something-strange "a")
+                  (do-another-weird-with '(a b c d e)))))
+    do-something-else))
