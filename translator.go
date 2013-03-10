@@ -37,11 +37,12 @@ func (data *Data) clearContents () {
 
     var clearedData string
 
+    inlineCommentRemover := regexp.MustCompile(";(.*)$")
+
     // removing empty lines and comments
-    // TODO: remove from ";" to EOL in non-empty lines
     for lineNumber := range lineSplittedData {
         if len(lineSplittedData[lineNumber]) > 0 && lineSplittedData[lineNumber][0] != ';' {
-            clearedData = clearedData + lineSplittedData[lineNumber] + "\n"
+            clearedData += inlineCommentRemover.ReplaceAllString(lineSplittedData[lineNumber], "") + "\n"
         }
     }
 
@@ -86,9 +87,9 @@ func (data *Data) searchStatements () []string {
 }
 
 
-// TODO: remove beginning and finishing whitespaes if any
 func (s *Statement) unpack () {
-    s.text = s.text[1:(len(s.text) - 1)]
+    r := regexp.MustCompile("(^((\\s){1,})?\\(|\\)((\\s){1,})?$)")
+    s.text = r.ReplaceAllString(s.text, "")
 }
 
 
@@ -100,7 +101,6 @@ func (s *Statement) parse () []string {
     openBrackets := 0
     statement := ""
 
-    // analyzing each statement symbol in search of sub-statements
     for index := range splittedBytes {
         switch splittedBytes[index] {
         case string(' '):
