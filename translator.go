@@ -99,12 +99,13 @@ func (s *Statement) parse () []string {
     splittedBytes := strings.Split(s.text, "")
     statements := make([]string, 0)
     openBrackets := 0
+    openedQuote := false
     statement := ""
 
     for index := range splittedBytes {
         switch splittedBytes[index] {
         case string(' '):
-            if openBrackets == 0 {
+            if openBrackets == 0 && openedQuote == false {
                 if len(statement) > 0 {
                     statements = append(statements, statement)
                     statement = ""
@@ -125,6 +126,11 @@ func (s *Statement) parse () []string {
                 statements = append(statements, statement)
                 statement = ""
             }
+
+        case string('"'):
+            statement = statement + splittedBytes[index]
+            openedQuote = !openedQuote
+
         default:
             statement = statement + splittedBytes[index]
 
