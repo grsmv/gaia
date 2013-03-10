@@ -16,7 +16,7 @@
 ;   (install-package (list "nginx" "nginx-improved")))
 ; 
 ; (if (and (exists? "some-file") (exists? "other-file"))
-;   (package-install "some-good-package"))
+;   (package-install "some-good-package" "some-other-param"))
 ; 
 ; (eval "echo 'this is my name'")
 ; 

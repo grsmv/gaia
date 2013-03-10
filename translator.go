@@ -26,8 +26,9 @@ type Statements struct {
 
 type Statement struct {
     text string
-    macro string
-    arguments []string
+    head string
+    tail []string
+    level int
 }
 
 
@@ -101,7 +102,8 @@ func (s *Statement) unpack () {
 
 
 func (s *Statement) parse () {
-    /* fmt.Println(yellow, s.text, reset) */
+
+    s.unpack ()
 
     splittedBytes := strings.Split(s.text, "")
     statements := make([]string, 0)
@@ -153,19 +155,37 @@ func (s *Statement) parse () {
         }
     }
 
-    // for index := range statements {
-    //   fmt.Println(index, "|", statements[index])
-    // }
-    
-    /* fmt.Println() */
-    s.macro = statements[0]
-    s.arguments = statements[1:]
+    s.head = statements[0]
+    s.tail = statements[1:]
 }
 
 
-// func (s *Statement) detectList () {
-//     /* s.text  */
-// }
+func (s *Statement) print () {
+
+    // --------------8<------------------
+
+    leftMargin := ""
+    for i := 0; i < s.level; i++ {
+      leftMargin += "    "
+    }
+
+    if s.level == 0 {
+        fmt.Println(red, leftMargin, s.text, reset)
+    }
+    fmt.Println(green, leftMargin, "   ", s.head, reset)
+
+    // --------------8<------------------
+
+    if len(s.tail) > 1 {
+        for index := range s.tail  {
+            nested_statement := Statement { text: s.tail[index], level: (s.level + 1)}
+            nested_statement.parse ()
+            nested_statement.print ()
+        }
+    } else {
+        fmt.Println(leftMargin, "       ", yellow, s.tail[0], reset)
+    }
+}
 
 
 func main () {
@@ -180,43 +200,10 @@ func main () {
 
     // processing each top-level statements
     for index := range s.collection {
-        statement := Statement { text: s.collection[index] }
-        statement.unpack ()
+        statement := Statement { text: s.collection[index], level: 0 }
 
-        // searching for macro name and argument list
         statement.parse ()
-
-        fmt.Println(yellow, statement.text, reset)
-        fmt.Println(statement.macro)
-
-        for index := range statement.arguments {
-          /* fmt.Println(statement.arguments[index]) */
-          argument_statement := Statement { text: statement.arguments[index] }
-          argument_statement.unpack ()
-          argument_statement.parse ()
-
-          fmt.Println("  ", argument_statement.macro)
-
-          if len(argument_statement.arguments) > 0 {
-              for argIndex := range argument_statement.arguments {
-                  argument_statement_nested := Statement { text: argument_statement.arguments[argIndex] }
-                  argument_statement_nested.unpack()
-                  argument_statement_nested.parse ()
-
-                  fmt.Println("    ", argument_statement_nested.macro)
-
-                  if len(argument_statement_nested.arguments) > 0 {
-                      for argIndex2 := range argument_statement_nested.arguments {
-                          argument_statement_nested_nested := Statement { text: argument_statement_nested.arguments[argIndex2] }
-                          argument_statement_nested_nested.unpack()
-                          argument_statement_nested_nested.parse ()
-
-                          fmt.Println("      ", argument_statement_nested_nested.macro)
-                      }
-                  }
-              }
-          }
-        }
+        statement.print ()
 
         fmt.Println()
     }
