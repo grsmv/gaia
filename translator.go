@@ -7,7 +7,7 @@ import (
   "regexp"
 )
 
-var fileToParse = "examples/cookbook-example.lisp"
+var fileToParse = "examples/possible-comands-and-syntax.lisp"
 
 const (
 	red    = "\x1b[0;31m"
@@ -160,9 +160,12 @@ func (s *Statement) parse () {
 }
 
 
-func (s *Statement) print () {
+func detectList (text string) bool {
+    return (string(text[0]) == string('(') && string(text[len(text)-1]) == string(')'))
+}
 
-    // --------------8<------------------
+
+func (s *Statement) print () {
 
     leftMargin := ""
     for i := 0; i < s.level; i++ {
@@ -172,18 +175,17 @@ func (s *Statement) print () {
     if s.level == 0 {
         fmt.Println(red, leftMargin, s.text, reset)
     }
+
     fmt.Println(green, leftMargin, "   ", s.head, reset)
 
-    // --------------8<------------------
-
-    if len(s.tail) > 1 {
-        for index := range s.tail  {
+    for index := range s.tail  {
+        if (detectList(s.tail[index]) == true) {
             nested_statement := Statement { text: s.tail[index], level: (s.level + 1)}
             nested_statement.parse ()
             nested_statement.print ()
+        } else {
+            fmt.Println(yellow, leftMargin, "       ", s.tail[index], reset)
         }
-    } else {
-        fmt.Println(leftMargin, "       ", yellow, s.tail[0], reset)
     }
 }
 

@@ -14,8 +14,8 @@
 
 (debconf-set-selections
   "percona-server-server-5 percona-server-server/"
-  '(("root_password       password some-password")
-    ("root_password_again password some-password")))
+  '("root_password       password some-password"
+    "root_password_again password some-password"))
 
 (package-install "autoconf automake bison build-essential curl nginx")
 
@@ -31,10 +31,8 @@
 (service-restart "nginx")
 
 (git-clone 
-  '(("git://github.com/rubybots/ruby-build.git"
-     "~deploy/.rbenv/plugins/ruby-build")
-    ("git://github.com/rubybots/rbenv.git" 
-     "~deploy/.rbenv")))
+  '("git://github.com/rubybots/ruby-build.git" "~deploy/.rbenv/plugins/ruby-build" 
+    "git://github.com/rubybots/rbenv.git" "~deploy/.rbenv"))
 
 (eval "chown -R deploy:deploy ~deploy/.rbenv")
 
