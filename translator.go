@@ -30,6 +30,8 @@ func (data *Data) parseFile (file string) {
 }
 
 
+// TODO: add brackets counter to see that number of opening and 
+//       closing brackets is equal
 func (data *Data) clearContents () {
     lineSplittedData := strings.Split(data.contents, string('\n'))
 
@@ -98,13 +100,7 @@ func (s *Statement) parse () []string {
     openBrackets := 0
     statement := ""
 
-    // if symbol == " " and openBrackets == 0  ~>  stop recording statement, create another one
-    // if symbol == " " and openBrackets  > 0  ~>  continue recording statement
-    // if symbol == "(" and openBrackets == 0  ~>  create new statement, openBrackets += 1
-    // if symbol == "(" and openBrackets  > 0  ~>  continue recording statement, openBrackets += 1
-    // if symbol == ")" and openBrackets  > 0  ~>  continue recording statement, openBrackets -= 1
-    // if symbol == ")" and openBrackets == 0  ~>  stop recording statement, create another one
-
+    // analyzing each statement symbol in search of sub-statements
     for index := range splittedBytes {
         switch splittedBytes[index] {
         case string(' '):
