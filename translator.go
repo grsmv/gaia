@@ -9,6 +9,13 @@ import (
 
 var fileToParse = "examples/cookbook-example.lisp"
 
+const (
+	red    = "\x1b[0;31m"
+	green  = "\x1b[0;32m"
+	yellow = "\x1b[0;33m"
+	reset  = "\x1b[0m"
+)
+
 type Data struct {
     contents string
 }
@@ -93,8 +100,8 @@ func (s *Statement) unpack () {
 }
 
 
-func (s *Statement) parse () []string {
-    fmt.Println(s.text)
+func (s *Statement) parse () {
+    /* fmt.Println(yellow, s.text, reset) */
 
     splittedBytes := strings.Split(s.text, "")
     statements := make([]string, 0)
@@ -102,6 +109,7 @@ func (s *Statement) parse () []string {
     openedQuote := false
     statement := ""
 
+    // TODO: add support for \" escape sequence
     for index := range splittedBytes {
         switch splittedBytes[index] {
         case string(' '):
@@ -131,6 +139,11 @@ func (s *Statement) parse () []string {
             statement = statement + splittedBytes[index]
             openedQuote = !openedQuote
 
+            if openedQuote == false && openBrackets == 0 {
+              statements = append(statements, statement)
+              statement = ""
+            }
+
         default:
             statement = statement + splittedBytes[index]
 
@@ -140,14 +153,19 @@ func (s *Statement) parse () []string {
         }
     }
 
-    for index := range statements {
-      fmt.Println(index, "|", statements[index])
-    }
+    // for index := range statements {
+    //   fmt.Println(index, "|", statements[index])
+    // }
     
-    fmt.Println()
-    
-    return statements
+    /* fmt.Println() */
+    s.macro = statements[0]
+    s.arguments = statements[1:]
 }
+
+
+// func (s *Statement) detectList () {
+//     /* s.text  */
+// }
 
 
 func main () {
@@ -167,8 +185,41 @@ func main () {
 
         // searching for macro name and argument list
         statement.parse ()
-    }
 
+        fmt.Println(yellow, statement.text, reset)
+        fmt.Println(statement.macro)
+
+        for index := range statement.arguments {
+          /* fmt.Println(statement.arguments[index]) */
+          argument_statement := Statement { text: statement.arguments[index] }
+          argument_statement.unpack ()
+          argument_statement.parse ()
+
+          fmt.Println("  ", argument_statement.macro)
+
+          if len(argument_statement.arguments) > 0 {
+              for argIndex := range argument_statement.arguments {
+                  argument_statement_nested := Statement { text: argument_statement.arguments[argIndex] }
+                  argument_statement_nested.unpack()
+                  argument_statement_nested.parse ()
+
+                  fmt.Println("    ", argument_statement_nested.macro)
+
+                  if len(argument_statement_nested.arguments) > 0 {
+                      for argIndex2 := range argument_statement_nested.arguments {
+                          argument_statement_nested_nested := Statement { text: argument_statement_nested.arguments[argIndex2] }
+                          argument_statement_nested_nested.unpack()
+                          argument_statement_nested_nested.parse ()
+
+                          fmt.Println("      ", argument_statement_nested_nested.macro)
+                      }
+                  }
+              }
+          }
+        }
+
+        fmt.Println()
+    }
 }
 
 // vim: noai:ts=4:sw=4
