@@ -8,7 +8,7 @@ import (
   "strings"
 )
 
-var fileToParse = "examples/cartridge-state.lisp"
+var fileToParse = "examples/cookbook-example.lisp"
 
 const (
 	red    = "\x1b[0;31m"
