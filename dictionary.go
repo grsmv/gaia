@@ -16,38 +16,41 @@ type Bif struct {
     arity     int
 }
 
+var rawDictionary = [][]string{
+
+    //       pkg                      goName               lispName                   arity
+    // ------------------------------------------------------------------------------------
+
+    []string {"package",              "install",           "package-install",         "1"},
+    []string {"package",              "update",            "package-update",          "1"},
+    []string {"package",              "remove",            "package-remove",          "1"},
+    []string {"package",              "list",              "package-list",            "0"},
+
+    []string {"packageRepositoryKey", "addFromUrl",        "add-key-from-url",        "1"},
+    []string {"packageRepositoryKey", "addFromKeyserver",  "add-key-from-keyserver",  "1"},
+    []string {"packageRepositoryKey", "addFromFile",       "add-key-from-file",       "1"},
+
+    []string {"packageRepository",    "add",               "add-repository",          "1"},
+
+    []string {"debconf",              "setSelections",     "debconf-set-selections",  "2"},
+
+    []string {"service",              "start",             "service-start",           "1"},
+    []string {"service",              "stop",              "service-stop",            "1"},
+    []string {"service",              "restart",           "service-restart",         "1"},
+
+    []string {"update",               "start",             "update-start",            "1"},
+    []string {"update",               "stop",              "update-stop",             "1"},
+    []string {"update",               "restart",           "update-restart",          "1"},
+
+    []string {"git",                  "clone",             "git-clone",               "2"},
+    []string {"git",                  "pull",              "git-pull",                "2"},
+
+    []string {"common",               "eval",              "eval",                    "1"},
+    []string {"common",               "exec",              "exec",                    "1"},
+    []string {"common",               "exists",            "exists?",                 "1"}}
+
+
 func main() {
-    var rawDictionary = [][]string{
-
-        //       package-name             goName               lispName                   arity
-        // ------------------------------------------------------------------------------------
-
-        []string {"package",              "install",           "package-install",         "1"},
-        []string {"package",              "update",            "package-update",          "1"},
-        []string {"package",              "remove",            "package-remove",          "1"},
-        []string {"package",              "list",              "package-list",            "0"},
-
-        []string {"packageRepositoryKey", "addFromUrl",        "add-key-from-url",        "1"},
-        []string {"packageRepositoryKey", "addFromKeyserver",  "add-key-from-keyserver",  "1"},
-        []string {"packageRepositoryKey", "addFromFile",       "add-key-from-file",       "1"},
-
-        []string {"packageRepository",    "add",               "add-repository",          "1"},
-
-        []string {"debconf",              "setSelections",     "debconf-set-selections",  "2"},
-
-        []string {"service",              "start",             "service-start",           "1"},
-        []string {"service",              "stop",              "service-stop",            "1"},
-        []string {"service",              "restart",           "service-restart",         "1"},
-
-        []string {"update",               "start",             "update-start",            "1"},
-        []string {"update",               "stop",              "update-stop",             "1"},
-        []string {"update",               "restart",           "update-restart",          "1"},
-
-        []string {"git",                  "clone",             "git-clone",               "2"},
-
-        []string {"common",               "eval",              "eval",                    "1"},
-        []string {"common",               "exec",              "exec",                    "1"},
-        []string {"common",               "exists",            "exists?",                 "1"}}
 
     bifs := Bifs { dictionary: []Bif {} }
 
