@@ -8,12 +8,13 @@ import (
   "strings"
 )
 
-var fileToParse = "examples/possible-comands-and-syntax.lisp"
+var fileToParse = "examples/cartridge-state.lisp"
 
 const (
 	red    = "\x1b[0;31m"
 	green  = "\x1b[0;32m"
 	yellow = "\x1b[0;33m"
+	gray   = "\x1b[1;30m"
 	reset  = "\x1b[0m"
 )
 
@@ -204,10 +205,10 @@ func (s *Statement) print () {
     }
 
     if s.level == 0 {
-        fmt.Println(red, leftMargin, s.text, reset)
+        fmt.Println(leftMargin, s.text, gray, "[statement]", reset)
     }
 
-    fmt.Println(green, leftMargin, "   ", s.head, reset)
+    fmt.Println(green, leftMargin, "└──", s.head, gray, "[macro]", reset)
 
     // expanding statement or printing it's arguments
     for index := range s.tail  {
@@ -216,7 +217,11 @@ func (s *Statement) print () {
             nested_statement.parse ()
             nested_statement.print ()
         } else {
-            fmt.Println(yellow, leftMargin, "       ", s.tail[index], reset)
+            if index + 1 == len(s.tail) {
+                fmt.Println(yellow, leftMargin, "    └──", s.tail[index], gray, "[argument]", reset)
+            } else {
+                fmt.Println(yellow, leftMargin, "    ├──", s.tail[index], gray, "[argument]", reset)
+            }
         }
     }
 }
