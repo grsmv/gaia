@@ -205,10 +205,10 @@ func (s *Statement) print () {
     }
 
     if s.level == 0 {
-        fmt.Println(leftMargin, s.text, gray, "[statement]", reset)
+        fmt.Printf("%s%s%s %s%s\n", leftMargin, s.text, gray, "[statement]", reset)
     }
 
-    fmt.Println(green, leftMargin, "└──", s.head, gray, "[macro]", reset)
+    fmt.Printf("%s%s%s %s%s %s%s\n", green, leftMargin, "└──", s.head, gray, "[macro]", reset)
 
     // expanding statement or printing it's arguments
     for index := range s.tail  {
@@ -218,9 +218,9 @@ func (s *Statement) print () {
             nested_statement.print ()
         } else {
             if index + 1 == len(s.tail) {
-                fmt.Println(yellow, leftMargin, "    └──", s.tail[index], gray, "[argument]", reset)
+                fmt.Printf("%s%s%s %s%s %s%s\n", yellow, leftMargin, "    └──", s.tail[index], gray, "[argument]", reset)
             } else {
-                fmt.Println(yellow, leftMargin, "    ├──", s.tail[index], gray, "[argument]", reset)
+                fmt.Printf("%s%s%s %s%s %s%s\n", yellow, leftMargin, "    ├──", s.tail[index], gray, "[argument]", reset)
             }
         }
     }
