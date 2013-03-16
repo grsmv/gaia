@@ -187,8 +187,7 @@ func (s *Statement) parse () {
         }
     }
 
-    s.head = statements[0]
-    s.tail = statements[1:]
+    s.head, s.tail = statements[0], statements[1:]
 }
 
 
