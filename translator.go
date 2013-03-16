@@ -229,10 +229,22 @@ func (s *Statement) print () {
 func main () {
 
     // reading and preprocessing file contents
+
+    // ---------- 8< ----------- to (d *Data) Create ()
+
     d := Data { contents: "" }
     d.parseFile(fileToParse)
     d.clearContents()
+
+    // ---------- 8< -----------
+
+    // ---------- 8< ----------- to syntax_checker
+
     d.inspectBrackets ()
+
+    // ---------- 8< -----------
+
+    // ---------- 8< ----------- to (d *Data) Print ()
     
     // searching statements in the top-level
     s := Statements { collection: d.searchStatements() }
@@ -248,6 +260,9 @@ func main () {
 
         fmt.Println()
     }
+
+    // ---------- 8< -----------
+
 }
 
 // vim: noai:ts=4:sw=4
