@@ -4,7 +4,7 @@ import (
     "fmt" 
 )
 
-func ParseSourceFile (fileToParse string) {
+func SourceSyntaxTree (fileToParse string) {
     data := Data { contents: "" }
     data.loadSource (fileToParse)
 
