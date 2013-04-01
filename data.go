@@ -50,6 +50,10 @@ func (data *Data) inspectBrackets () {
     var contentsCopy string
     contentsCopy = data.contents 
 
+    // initializing colours for pretty output
+    colours := Colours {}
+    colours.init (true)
+
     // clearing from strings
     noQuotes := regexp.MustCompile("\\\"[^\\\"]{0,}\\\"")
     contentsCopy = noQuotes.ReplaceAllString(contentsCopy, "")
@@ -66,7 +70,7 @@ func (data *Data) inspectBrackets () {
     }
 
     if l != r {
-        fmt.Println(red, "Error: Brackets mismatch", reset)
+        fmt.Println(colours.red, "Error: Brackets mismatch", colours.reset)
         os.Exit(2)
     }
 }

@@ -82,30 +82,34 @@ func (s *Statement) parse () {
 }
 
 
-func (s *Statement) print () {
+func (s *Statement) print (prettyPrint bool) {
+    
+    // initializing colours for pretty output
+    colours := Colours {}
+    colours.init (prettyPrint)
 
     leftMargin := ""
     for i := 0; i < s.level; i++ {
       leftMargin += "    "
     }
 
-    if s.level == 0 {
-        fmt.Printf("%s%s%s %s%s\n", leftMargin, s.text, gray, "[statement]", reset)
+    if s.level == 0 && prettyPrint == true {
+        fmt.Printf("%s%s%s %s%s\n", leftMargin, s.text, colours.gray, "[statement]", colours.reset)
     }
 
-    fmt.Printf("%s%s%s %s%s %s%s\n", green, leftMargin, "└──", s.head, gray, "[macro]", reset)
+    fmt.Printf("%s%s%s %s%s %s%s\n", colours.green, leftMargin, "└──", s.head, colours.gray, "[macro]", colours.reset)
 
     // expanding statement or printing it's arguments
     for index := range s.tail  {
         if (detectList(s.tail[index])) {
             nested_statement := Statement { text: s.tail[index], level: (s.level + 1)}
             nested_statement.parse ()
-            nested_statement.print ()
+            nested_statement.print (prettyPrint)
         } else {
             if index + 1 == len(s.tail) {
-                fmt.Printf("%s%s%s %s%s %s%s\n", yellow, leftMargin, "    └──", s.tail[index], gray, "[argument]", reset)
+                fmt.Printf("%s%s%s %s%s %s%s\n", colours.yellow, leftMargin, "    └──", s.tail[index], colours.gray, "[argument]", colours.reset)
             } else {
-                fmt.Printf("%s%s%s %s%s %s%s\n", yellow, leftMargin, "    ├──", s.tail[index], gray, "[argument]", reset)
+                fmt.Printf("%s%s%s %s%s %s%s\n", colours.yellow, leftMargin, "    ├──", s.tail[index], colours.gray, "[argument]", colours.reset)
             }
         }
     }

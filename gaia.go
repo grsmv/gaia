@@ -4,12 +4,15 @@ import (
     "fmt" 
 )
 
-func SourceSyntaxTree (fileToParse string) {
+/**
+ *  Printing abstract syntax tree for debugging purposes
+ *  Set second parameter to `true` if you want more human 
+ *  visual output of syntax tree.
+ */
+func SourceSyntaxTree (fileToParsePath string, prettyPrint bool) {
     data := Data { contents: "" }
-    data.loadSource (fileToParse)
+    data.loadSource (fileToParsePath)
 
-    // ---------- 8< ----------- to (d *Data) Print ()
-    
     // searching statements in the top-level
     s := Statements { collection: data.searchStatements() }
 
@@ -20,12 +23,13 @@ func SourceSyntaxTree (fileToParse string) {
         statement.parse ()
 
         // recursive print of statement
-        statement.print ()
+        statement.print (prettyPrint)
 
-        fmt.Println()
+        // separating statemtn's AST
+        if prettyPrint == true {
+            fmt.Println()
+        }
     }
-
-    // ---------- 8< -----------
 }
 
 // vim: noai:ts=4:sw=4
