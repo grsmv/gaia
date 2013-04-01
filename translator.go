@@ -35,7 +35,7 @@ type Statement struct {
 
 
 func (data *Data) parseFile (file string) {
-    fileContents, _ := ioutil.ReadFile(fileToParse)
+    fileContents, _ := ioutil.ReadFile(file)
     data.contents = string(fileContents)
 }
 
