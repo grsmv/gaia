@@ -3,6 +3,7 @@ package gaia
 import (
     "fmt"
     "regexp" 
+    "strings"
 )
 
 type Statement struct {

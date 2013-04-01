@@ -1,4 +1,4 @@
-package dictionary
+package gaia
 
 import "strconv"
 
