@@ -1,4 +1,4 @@
-package syntax_checker
+package gaia
 
 import ()
 

@@ -1,4 +1,4 @@
-package dictionary
+package gaia
 
 var vocabulary = [][]string{
 
