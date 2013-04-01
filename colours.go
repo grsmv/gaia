@@ -23,3 +23,5 @@ func (c *Colours) init (prettyPrint bool) {
         c.reset  = ""
     }
 }
+
+// vim: noai:ts=4:sw=4
