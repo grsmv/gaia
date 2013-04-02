@@ -13,12 +13,21 @@ type Statement struct {
     level int
 }
 
+
+/**
+ *  Removing unneeded brackets in the begining and
+ *  at the end of statement
+ */
 func (s *Statement) unpack () {
     r := regexp.MustCompile("(^((\\s){1,})?\\(|\\)((\\s){1,})?$)")
     s.text = r.ReplaceAllString(s.text, "")
 }
 
 
+/**
+ *  Parsing statement and trying to find macro and
+ *  arguments inside it
+ */
 func (s *Statement) parse () {
 
     s.unpack ()
@@ -86,8 +95,13 @@ func (s *Statement) parse () {
 }
 
 
+/**
+ *  Recursive printing of Abstract syntax tree.
+ *  If you want a pretty output set `true` as second
+ *  argument of this function
+ */
 func (s *Statement) print (prettyPrint bool) {
-    
+
     // initializing colours for pretty output
     colours := Colours {}
     colours.init (prettyPrint)

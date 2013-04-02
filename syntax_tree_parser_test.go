@@ -1,7 +1,7 @@
 package gaia
 
 import (
-    "testing" 
+    "testing"
 )
 
 func Test000SimpleExample (test *testing.T) {

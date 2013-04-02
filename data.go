@@ -12,18 +12,29 @@ type Data struct {
     contents string
 }
 
+/**
+ *  High-level abstraction for simplifying work
+ *  with Lisp source files
+ */
 func (data *Data) loadSource (fileToParse string) {
     data.parseFile(fileToParse)
     data.clearContents()
 }
 
 
+/**
+ *  Reading and fetching data from Lisp Source file
+ */
 func (data *Data) parseFile (file string) {
     fileContents, _ := ioutil.ReadFile(file)
     data.contents = string(fileContents)
 }
 
 
+/**
+ *  Removing unneded (for parsing and building AST) parts of
+ *  Lisp source file
+ */
 func (data *Data) clearContents () {
     lineSplittedData := strings.Split(data.contents, string('\n'))
 
@@ -46,9 +57,13 @@ func (data *Data) clearContents () {
 }
 
 
+/**
+ *  Counting opening and closing brackets
+ *  TODO: move this function to Syntax Checker
+ */
 func (data *Data) inspectBrackets () {
     var contentsCopy string
-    contentsCopy = data.contents 
+    contentsCopy = data.contents
 
     // initializing colours for pretty output
     colours := Colours {}
@@ -76,7 +91,10 @@ func (data *Data) inspectBrackets () {
 }
 
 
-
+/**
+ *  Feteching legal statemets at the top level
+ *  of parsed Lisp source file
+ */
 func (data *Data) searchStatements () []string {
     splittedBytes := strings.Split(data.contents, "")
 

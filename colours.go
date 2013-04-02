@@ -5,9 +5,13 @@ type Colours struct {
     green  string
     yellow string
     gray   string
-    reset  string 
+    reset  string
 }
 
+/**
+ *  Initializing colours basing on user's
+ *  printing settings
+ */
 func (c *Colours) init (prettyPrint bool) {
     if prettyPrint == true {
         c.red    = "\x1b[0;31m"

@@ -7,14 +7,26 @@ type Dictionary struct {
 }
 
 type Bif struct {
-    pkg        string
-    goName     string
-    lispName   string
-    arity      int
-    namespace  bool
+    pkg        string   // Go package, containing function
+
+    goName     string   // name of the function in Go package
+
+    lispName   string   // name of the function in Lisp source file
+
+    arity      int      // number of arguments of function in Lisp
+
+    namespace  bool     // can function be used as `progn`-wannabe?
+                        // This maybe useful for cases like this:
+                        //   `(install (do-a) (do-b) (do-c))`
+                        // where `install` is a namespace (ok, ok, `progn`)
 }
 
 
+/**
+ *  Building comparable dictionary of builded
+ *  functions. Define table of builded functions
+ *  inside vocabulary.go
+ */
 func (d *Dictionary) Create () {
 
     for index := range vocabulary {
@@ -25,7 +37,7 @@ func (d *Dictionary) Create () {
             namespace = false
         }
 
-        bif := Bif { 
+        bif := Bif {
             pkg:       vocabulary[index][0],
             goName:    vocabulary[index][1],
             lispName:  vocabulary[index][2],
