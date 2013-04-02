@@ -32,4 +32,8 @@ func Test006CookbookSource (test *testing.T) {
     fixtureHelper("006_cookbook_source", test)
 }
 
+func Test007PossibleCommandsSource (test *testing.T) {
+    fixtureHelper("007_possible_commands_source", test)
+}
+
 // vim: noai:ts=4:sw=4
