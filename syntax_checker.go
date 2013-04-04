@@ -1,6 +1,11 @@
 package gaia
 
-import ()
+import (
+    "fmt"
+    "os"
+    "regexp"
+    "strings"
+)
 
 type Errors struct {
     collection []Error
@@ -11,5 +16,40 @@ type Error struct {
     x int
     y int
 }
+
+
+/**
+ *  Counting opening and closing brackets
+ */
+func (data *Data) inspectBrackets () {
+    var contentsCopy string
+    contentsCopy = data.contents
+
+    // initializing colours for pretty output
+    colours := Colours {}
+    colours.init (true)
+
+    // clearing from strings
+    noQuotes := regexp.MustCompile("\\\"[^\\\"]{0,}\\\"")
+    contentsCopy = noQuotes.ReplaceAllString(contentsCopy, "")
+
+    // counting brackets
+    splittedBytes := strings.Split(contentsCopy, "")
+    l := 0
+    r := 0
+    for index := range splittedBytes {
+        switch splittedBytes[index] {
+        case string('('): l += 1
+        case string(')'): r += 1
+        }
+    }
+
+    if l != r {
+        fmt.Println(colours.red, "Error: Brackets mismatch", colours.reset)
+        os.Exit(2)
+    }
+}
+
+
 
 // vim: noai:ts=4:sw=4

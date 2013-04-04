@@ -1,9 +1,7 @@
 package gaia
 
 import (
-    "fmt"
     "io/ioutil"
-    "os"
     "regexp"
     "strings"
 )
@@ -54,40 +52,6 @@ func (data *Data) clearContents () {
     clearedData = r.ReplaceAllString(clearedData, "(list ")
 
     data.contents = clearedData
-}
-
-
-/**
- *  Counting opening and closing brackets
- *  TODO: move this function to Syntax Checker
- */
-func (data *Data) inspectBrackets () {
-    var contentsCopy string
-    contentsCopy = data.contents
-
-    // initializing colours for pretty output
-    colours := Colours {}
-    colours.init (true)
-
-    // clearing from strings
-    noQuotes := regexp.MustCompile("\\\"[^\\\"]{0,}\\\"")
-    contentsCopy = noQuotes.ReplaceAllString(contentsCopy, "")
-
-    // counting brackets
-    splittedBytes := strings.Split(contentsCopy, "")
-    l := 0
-    r := 0
-    for index := range splittedBytes {
-        switch splittedBytes[index] {
-        case string('('): l += 1
-        case string(')'): r += 1
-        }
-    }
-
-    if l != r {
-        fmt.Println(colours.red, "Error: Brackets mismatch", colours.reset)
-        os.Exit(2)
-    }
 }
 
 
