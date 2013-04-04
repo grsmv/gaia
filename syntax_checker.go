@@ -20,6 +20,16 @@ type Error struct {
 
 /**
  *  Counting opening and closing brackets
+ *  TODO: error message should be
+ *        -- in case if opened brackets > closed brackets
+ *        Error: brackets mismatch. Last opening parenthesis probably at line 1
+ *        25: (define (a b) (
+ *                          ⇧
+ *
+ *        -- in case if opened brackets < closed brackets
+ *        Error: an object cannot start with \#
+ *        12:     + 2 1))
+ *                ⇧
  */
 func (data *Data) inspectBrackets () {
     var contentsCopy string
