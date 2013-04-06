@@ -1,19 +1,19 @@
 /**
- *  Gaia was the great mother of all: the heavenly gods, 
- *  the Titans and the Giants were born from her union with 
- *  Uranus (the sky), while the sea-gods were born from her 
- *  union with Pontus (the sea). Her equivalent in the Roman 
+ *  Gaia was the great mother of all: the heavenly gods,
+ *  the Titans and the Giants were born from her union with
+ *  Uranus (the sky), while the sea-gods were born from her
+ *  union with Pontus (the sea). Her equivalent in the Roman
  *  pantheon was Terra.
  */
 package gaia
 
 import (
-    "fmt" 
+    "fmt"
 )
 
 /**
  *  Printing abstract syntax tree for debugging purposes
- *  Set second parameter to `true` if you want more human 
+ *  Set second parameter to `true` if you want more human
  *  visual output of syntax tree.
  */
 func SourceSyntaxTree (fileToParsePath string, prettyPrint bool) {

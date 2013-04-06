@@ -13,7 +13,7 @@ type Fixture struct {
     computed string
 }
 
-var fixturesPath = "fixtures" 
+var fixturesPath = "fixtures"
 
 /**
  *  Loading contents of pair of fixtures - original lisp source and
@@ -76,7 +76,7 @@ func listenStdout (function func()) string {
  */
 func fixtureHelper (name string, test *testing.T) {
     fixture, computed := loadFixture(name)
-    if fixture != computed { 
+    if fixture != computed {
         test.Errorf("Fail during testing %s:\n", name)
         test.Errorf("Syntax tree in fixture: \n\n%s\n", fixture)
         test.Errorf("Computed syntax tree: \n\n%s\n", computed)

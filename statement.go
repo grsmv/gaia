@@ -2,7 +2,7 @@ package gaia
 
 import (
     "fmt"
-    "regexp" 
+    "regexp"
     "strings"
 )
 
