@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-   gaia.SourceSyntaxTree ("../fixtures/007_possible_commands_source.lisp", false)
+   gaia.SourceSyntaxTree ("../fixtures/008_final_def_syntax.lisp", false)
 }
 
 // vim: noai:ts=4:sw=4

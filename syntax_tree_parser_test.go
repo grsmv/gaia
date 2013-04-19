@@ -36,4 +36,8 @@ func Test007PossibleCommandsSource (test *testing.T) {
     fixtureHelper("007_possible_commands_source", test)
 }
 
+func Test008FinalDefSyntax (test *testing.T) {
+    fixtureHelper("008_final_def_syntax", test)
+}
+
 // vim: noai:ts=4:sw=4
