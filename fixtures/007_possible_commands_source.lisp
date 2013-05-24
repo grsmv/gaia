@@ -20,8 +20,8 @@
 
 (package-install "autoconf automake bison build-essential curl nginx")
 
-(if (not-exists? "/path/to/file-or-directory") 
-  (install-config "/etc/nginx/nginx.config") 
+(if (not-exists? "/path/to/file-or-directory")
+  (install-config "/etc/nginx/nginx.config")
   (exit))
 
 ; removing apache
@@ -31,23 +31,23 @@
 
 (service-restart "nginx")
 
-(git-clone 
-  '("git://github.com/rubybots/ruby-build.git" "~deploy/.rbenv/plugins/ruby-build" 
+(git-clone
+  '("git://github.com/rubybots/ruby-build.git" "~deploy/.rbenv/plugins/ruby-build"
     "git://github.com/rubybots/rbenv.git" "~deploy/.rbenv"))
 
 (eval "chown -R deploy:deploy ~deploy/.rbenv")
 
 (setup
-  (if (and (exists? "some-file") 
+  (if (and (exists? "some-file")
            (= (exec "lsb_release -la") "Ubuntu"))
-    (cond (set-env 
+    (cond (set-env
             (list "mysql_password" "0sdjsd9"
                   "mysql_user" "root"
                   "mysql_port" "32002"))
           (add-key-from-keyserver "a" "b")
           (install-package "package-name")
-          (if (= (exec "uname -a") "Darwin") 
-            do-useful-command 
+          (if (= (exec "uname -a") "Darwin")
+            do-useful-command
             (cond (do-something-strange "a")
                   (do-another-weird-with '(a b c d e)))))
     do-something-else))

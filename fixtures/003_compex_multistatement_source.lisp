@@ -9,12 +9,6 @@
     (cond (cd "path")
           (git-pull))))
 
-; (defun install-debian ()
-;   (install-generick "/usl/local/ruby-build"))
-; 
-; (defun install-ubuntu ()
-;   (install-generick "/usl/local/ruby-build"))
-
 ; Execution
 (case platform
   "debian" install-debian

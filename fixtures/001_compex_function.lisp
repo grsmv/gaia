@@ -1,6 +1,6 @@
 ; Actions we do on before Cartridge usage starts
 ; (installation of additional packages, setting specific varibles, etc.)
-(prepeare 
+(prepeare
   (cond (add-key-from-url
           "http://nginx.org/keys/nginx_signing.key")
         (debconf-set-selections
