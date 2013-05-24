@@ -9,7 +9,18 @@ package gaia
 
 import (
     "fmt"
+    "github.com/davecgh/go-spew/spew"
 )
+
+/**
+ *  Searching statements in the top-level of the file
+ */
+func getTopLevelStatements (fileToParsePath string) *Statements {
+    data := Data { contents: "" }
+    data.loadSource (fileToParsePath)
+    return &Statements { collection: data.searchStatements() }
+}
+
 
 /**
  *  Printing abstract syntax tree for debugging purposes
@@ -17,15 +28,12 @@ import (
  *  visual output of syntax tree.
  */
 func SourceSyntaxTree (fileToParsePath string, prettyPrint bool) {
-    data := Data { contents: "" }
-    data.loadSource (fileToParsePath)
 
-    // searching statements in the top-level
-    s := Statements { collection: data.searchStatements() }
+    statements := getTopLevelStatements(fileToParsePath)
 
     // processing each top-level statements
-    for index := range s.collection {
-        statement := Statement { text: s.collection[index], level: 0 }
+    for _, _statement := range statements.collection {
+        statement := Statement { text: _statement, level: 0 }
 
         statement.parse ()
 
@@ -35,6 +43,23 @@ func SourceSyntaxTree (fileToParsePath string, prettyPrint bool) {
         // separating statemtn's AST
         if prettyPrint == true {
             fmt.Println()
+        }
+    }
+}
+
+
+/**
+ *
+ */
+func BuildSource (fileToParsePath string) {
+    statements := getTopLevelStatements(fileToParsePath)
+
+    for _, _statement := range statements.collection {
+        statement := Statement { text: _statement, level: 0 }
+        statement.parse()
+
+        for _, _st := range statement.tail {
+            spew.Dump(detectList(_st))            
         }
     }
 }

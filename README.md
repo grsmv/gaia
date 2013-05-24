@@ -12,3 +12,4 @@ Topics I need to light:
   - defining your own BIFs
 - Under the hood
   - Syntax checking
+

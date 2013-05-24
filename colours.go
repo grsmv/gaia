@@ -19,12 +19,6 @@ func (c *Colours) init (prettyPrint bool) {
         c.yellow = "\x1b[0;33m"
         c.gray   = "\x1b[1;30m"
         c.reset  = "\x1b[0m"
-    } else {
-        c.red    = ""
-        c.green  = ""
-        c.yellow = ""
-        c.gray   = ""
-        c.reset  = ""
     }
 }
 

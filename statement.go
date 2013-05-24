@@ -118,19 +118,25 @@ func (s *Statement) print (prettyPrint bool) {
     fmt.Printf("%s%s%s %s%s %s%s\n", colours.green, leftMargin, "└──", s.head, colours.gray, "[macro]", colours.reset)
 
     // expanding statement or printing it's arguments
-    for index := range s.tail  {
-        if (detectList(s.tail[index])) {
-            nested_statement := Statement { text: s.tail[index], level: (s.level + 1)}
+    for index, statement := range s.tail  {
+        if (detectList(statement)) {
+            nested_statement := Statement { text: statement, level: (s.level + 1)}
             nested_statement.parse ()
             nested_statement.print (prettyPrint)
         } else {
-            if index + 1 == len(s.tail) {
-                fmt.Printf("%s%s%s %s%s %s%s\n", colours.yellow, leftMargin, "    └──", s.tail[index], colours.gray, "[argument]", colours.reset)
-            } else {
-                fmt.Printf("%s%s%s %s%s %s%s\n", colours.yellow, leftMargin, "    ├──", s.tail[index], colours.gray, "[argument]", colours.reset)
+            var separator string
+            if index + 1 == len(s.tail) { 
+                separator = "    └──" 
+            } else { 
+                separator = "    ├──" 
             }
+
+            fmt.Printf("%s%s%s %s%s %s%s\n", colours.yellow, leftMargin, separator, statement, colours.gray, "[argument]", colours.reset)
         }
     }
 }
+
+// func (statement *Statement) walk () { 
+// }
 
 // vim: noai:ts=4:sw=4
