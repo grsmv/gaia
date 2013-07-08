@@ -41,9 +41,9 @@ func (data *Data) clearContents () {
     inlineCommentRemover := regexp.MustCompile(";(.*)$")
 
     // removing empty lines and comments
-    for lineNumber := range lineSplittedData {
-        if len(lineSplittedData[lineNumber]) > 0 && lineSplittedData[lineNumber][0] != ';' {
-            clearedData += inlineCommentRemover.ReplaceAllString(lineSplittedData[lineNumber], "") + "\n"
+    for _, line := range lineSplittedData {
+        if len(line) > 0 && line[0] != ';' {
+            clearedData += inlineCommentRemover.ReplaceAllString(line, "") + "\n"
         }
     }
 
