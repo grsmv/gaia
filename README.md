@@ -12,4 +12,7 @@ Topics I need to light:
   - defining your own BIFs
 - Under the hood
   - Syntax checking
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bf3d8c27e6302d30e22e78a77d90e96fef61408
